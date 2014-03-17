@@ -156,9 +156,6 @@ void testApp::setupSrc(int srcID){
     srcIMG.loadImage(url);
     srcIMG.update();
     
-    ofShader bw;
-    bw.setupShaderFromSource(GL_FRAGMENT_SHADER, bwShaderSrc);
-    bw.linkProgram();
     
     srcFbo.allocate(srcIMG.height, srcIMG.width);
     srcMaskFbo.allocate(srcIMG.width,srcIMG.height);
@@ -257,11 +254,14 @@ void testApp::cloneIMGs(){
     
     srcFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
     srcFbo.begin();
+    bw.begin();
+    bw.setUniformTexture("tex", srcIMG.getTextureReference(),1);
     ofClear(0,255);
     srcIMG.bind();
     //tgMesh.draw(); //default
     tgTestMesh.draw();
     srcIMG.unbind();
+    bw.end();
     srcFbo.end();
     
     
