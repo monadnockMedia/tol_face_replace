@@ -21,7 +21,7 @@ class testApp : public ofBaseApp{
     void drawImage();
     void returnImage(string fname);
     void loadPoints(string filename);
-    void setupTarget(int tgID);
+    
     void keyPressed  (int key);
     void sendImage();
 		void keyReleased(int key);
@@ -33,7 +33,10 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
         void cloneIMGs();
+    
         void setupSrc(int srcID);
+        void setupTarget(int tgID);
+        void buildTargets();
     
         ofxLibwebsockets::Server server;
     
@@ -60,12 +63,15 @@ class testApp : public ofBaseApp{
     Json::Value imageObject;
     Json::FastWriter writer;
     ofxLibwebsockets::Connection client;
+ 
+    int tgNum = 6;
     string tgNames [6] = {"0_lifering", "1_chef","2_crew","3_walk","4_couples","5_kids" };
-
+    ofPixels tgPixels [6];
     
     ofxFaceTracker srcTracker,tgTracker;
 	ofImage src;
 	vector<ofVec2f> srcPoints, tgPoints;
+    
     ofMesh tgMesh, srcMesh;
     ofFbo canvas, srcFbo, tgFbo, srcMaskFbo,tgMaskFbo, dbFbo;
     Clone clone;

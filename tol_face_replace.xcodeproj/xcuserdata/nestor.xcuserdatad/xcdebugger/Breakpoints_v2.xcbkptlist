@@ -10,11 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/testApp.cpp"
-            timestampString = "416428802.882566"
+            timestampString = "416771874.470405"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315">
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "testApp::setupTarget(int tgID)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -24,25 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/testApp.cpp"
-            timestampString = "416426247.392245"
+            timestampString = "416771874.470405"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/testApp.cpp"
-            timestampString = "416427761.45909"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "testApp::setupSrc(int srcID)"
             landmarkType = "5">
          </BreakpointContent>
@@ -54,13 +42,115 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/testApp.cpp"
-            timestampString = "416428802.882566"
+            timestampString = "416773756.760924"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
             landmarkName = "testApp::cloneIMGs()"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/testApp.cpp"
+            timestampString = "416771874.470405"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "testApp::draw()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "testApp::draw()"
+                  moduleName = "tol_face_replaceDebug"
+                  urlString = "file://localhost/Volumes/Pylos/openframeworks/openFrameworks/apps/tol/tol_face_replace/src/testApp.cpp"
+                  timestampString = "416770674.255171"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "473">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "testApp::draw()"
+                  moduleName = "tol_face_replaceDebug"
+                  urlString = "file://localhost/Volumes/Pylos/openframeworks/openFrameworks/apps/tol/tol_face_replace/src/testApp.cpp"
+                  timestampString = "416770674.255594"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "526">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "testApp::draw()"
+                  moduleName = "tol_face_replaceDebug"
+                  urlString = "file://localhost/Volumes/Pylos/openframeworks/openFrameworks/apps/tol/tol_face_replace/src/testApp.cpp"
+                  timestampString = "416770674.255999"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "721">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "testApp::draw()"
+                  moduleName = "tol_face_replaceDebug"
+                  urlString = "file://localhost/Volumes/Pylos/openframeworks/openFrameworks/apps/tol/tol_face_replace/src/testApp.cpp"
+                  timestampString = "416770674.256412"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "976">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "testApp::draw()"
+                  moduleName = "tol_face_replaceDebug"
+                  urlString = "file://localhost/Volumes/Pylos/openframeworks/openFrameworks/apps/tol/tol_face_replace/src/testApp.cpp"
+                  timestampString = "416770674.256796"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "1085">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/testApp.cpp"
+            timestampString = "416771874.470405"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

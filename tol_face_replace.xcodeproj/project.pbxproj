@@ -29,8 +29,8 @@
 		80AE40254BBE0F03C25563C1 /* CLM.cc in Sources */ = {isa = PBXBuildFile; fileRef = BE9718AC2BA4516A804EE019 /* CLM.cc */; };
 		86135253DC7909CA8590E157 /* Protocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57EEFEC8B85F7C3B15DD45A4 /* Protocol.cpp */; };
 		8AC885FBC5325950337592D2 /* ExpressionClassifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C4F6F873496C3527A28B87F4 /* ExpressionClassifier.cpp */; };
+		8E5EF53518D750E70058B23C /* Clone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5EF53418D750E70058B23C /* Clone.cpp */; };
 		8EDBA49518CFAA7B00922604 /* testApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA49418CFAA7B00922604 /* testApp.cpp */; };
-		8EDBA49818CFAAA800922604 /* Clone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA49718CFAAA800922604 /* Clone.cpp */; };
 		9EF1133BC23669A5C94FE30F /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69668FDE141262BC3C6CA929 /* jsoncpp.cpp */; };
 		9F4DA577D30F7B7CA7B8E5F8 /* FCheck.cc in Sources */ = {isa = PBXBuildFile; fileRef = C415F439B09BAEBA3FB3710F /* FCheck.cc */; };
 		A6668C5B1272D7FCD5B5A16F /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6CEC50DB3D06414010233963 /* Utilities.cpp */; };
@@ -179,11 +179,11 @@
 		8A4DD23693DFAB8EC05FAA5D /* ofxCvShortImage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxCvShortImage.cpp; path = ../../../addons/ofxOpenCv/src/ofxCvShortImage.cpp; sourceTree = SOURCE_ROOT; };
 		8AF5CDE1B5F658D7DE6849D5 /* svgtiny.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = svgtiny.h; path = ../../../addons/ofxSvg/libs/svgTiny/src/svgtiny.h; sourceTree = SOURCE_ROOT; };
 		8DB45DE3BD6BB97E34BDB411 /* nn_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = nn_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/nn_index.h; sourceTree = SOURCE_ROOT; };
+		8E5EF53318D750E70058B23C /* Clone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Clone.h; sourceTree = "<group>"; };
+		8E5EF53418D750E70058B23C /* Clone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Clone.cpp; sourceTree = "<group>"; };
 		8E79CF8911DFABAFE23EA45B /* ofxCvConstants.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCvConstants.h; path = ../../../addons/ofxOpenCv/src/ofxCvConstants.h; sourceTree = SOURCE_ROOT; };
 		8EDBA49318CFAA7B00922604 /* testApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testApp.h; sourceTree = "<group>"; };
 		8EDBA49418CFAA7B00922604 /* testApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testApp.cpp; sourceTree = "<group>"; };
-		8EDBA49618CFAAA800922604 /* Clone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Clone.h; path = ../../../FaceSubstitution/CloningWrapper/src/Clone.h; sourceTree = "<group>"; };
-		8EDBA49718CFAAA800922604 /* Clone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Clone.cpp; path = ../../../FaceSubstitution/CloningWrapper/src/Clone.cpp; sourceTree = "<group>"; };
 		946187321200AC04E570E6EC /* hierarchical_clustering_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hierarchical_clustering_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/hierarchical_clustering_index.h; sourceTree = SOURCE_ROOT; };
 		974AACF856A0A1B7D8F259E0 /* result_set.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = result_set.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/result_set.h; sourceTree = SOURCE_ROOT; };
 		97CFAD0B2F2DB004A8A3BC0B /* objdetect.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = objdetect.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/objdetect/objdetect.hpp; sourceTree = SOURCE_ROOT; };
@@ -871,11 +871,11 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				8E5EF53318D750E70058B23C /* Clone.h */,
+				8E5EF53418D750E70058B23C /* Clone.cpp */,
 				8EDBA49318CFAA7B00922604 /* testApp.h */,
 				8EDBA49418CFAA7B00922604 /* testApp.cpp */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				8EDBA49618CFAAA800922604 /* Clone.h */,
-				8EDBA49718CFAAA800922604 /* Clone.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1093,7 +1093,7 @@
 				F1AC6AEFB9B93C6AC45C9CA8 /* Events.cpp in Sources */,
 				8EDBA49518CFAA7B00922604 /* testApp.cpp in Sources */,
 				A78C77753D562AE8F0E928ED /* Connection.cpp in Sources */,
-				8EDBA49818CFAAA800922604 /* Clone.cpp in Sources */,
+				8E5EF53518D750E70058B23C /* Clone.cpp in Sources */,
 				C6C3882A0B0872D1485F3874 /* Client.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

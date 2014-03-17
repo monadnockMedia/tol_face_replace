@@ -1,5 +1,16 @@
 #include "testApp.h"
 using namespace ofxCv;
+
+char bwShaderSrc [] =
+"#extension GL_ARB_texture_rectangle : enable\n"
+"uniform sampler2DRect tex;\
+void main()\
+{\
+	//Multiply color by texture\
+	vec4 color = gl_Color * texture2DRect(tex, gl_TexCoord[0].xy);\
+	float gray = dot(color.rgb, vec3(0.299, 0.587, 0.314));\
+    gl_FragColor = vec4(gray, gray, gray, gl_Color.a);\n\
+}";
 //--------------------------------------------------------------
 void testApp::setup(){
     // setup a server with default options on port 9092
@@ -34,31 +45,32 @@ void testApp::setup(){
     tgTracker.setIterations(25);
     tgTracker.setAttempts(4);
     
-    setupTarget(2);
-    
-    
+    buildTargets();
     
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+     if(loadimg) setupSrc(0);
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
     
 
-   // tgFbo.draw(0,0,600,600);
+   
     
   //  srcFbo.draw(0,600, 600,600);
     
-    srcFbo.draw(0,0,600,600);
-    tgMaskFbo.draw(600,0,600,600);
+   // srcFbo.draw(0,0,600,600);
+    //tgMaskFbo.draw(600,0,600,600);
   
+     //tgFbo.draw(0,0,600,600);
+    
     if(cloned){
         //clone.draw(0,0);
         canvas.draw(0,600,600,600);   }
-    dbFbo.draw(600,600,600,600);
+        dbFbo.draw(600,600,600,600);
     
     if ( bConnected ){
         ofDrawBitmapString("WebSocket server setup at "+ofToString( server.getPort() ) + ( server.usingSSL() ? " with SSL" : " without SSL"), 20, 20);
@@ -80,19 +92,26 @@ void testApp::draw(){
     }
     if (messages.size() > NUM_MESSAGES) messages.erase( messages.begin() );
     //if(loadimg) drawImage();
-    if(loadimg) setupSrc(0);
+   
  
     
     
    }
 
+void testApp::buildTargets(){
+    for (int i = 0; i< tgNum; i++ ){
+        ofLoadImage(tgPixels[i], tgNames[i]+".jpg");
+    }
+}
 
 void testApp::setupTarget(int tgID){
     
     string fn = tgNames[tgID]+".jpg";
     cout << "loading " << fn<<endl;
-    tgIMG.loadImage(fn);
-    tgIMG.update();
+    
+    tgIMG.setFromPixels(tgPixels[tgID]);
+    //tgIMG.loadImage(fn);
+    //tgIMG.update();
     tgFbo.allocate(tgIMG.getWidth(),tgIMG.getHeight());
     
     
@@ -106,14 +125,12 @@ void testApp::setupTarget(int tgID){
     
     tgFbo.begin();
     tgIMG.draw(0,0);
+   // tgMesh.drawWireframe();
   //  tgMesh.drawWireframe();
     tgFbo.end();
-    
-    
-    
-
-
 }
+
+
 
 
 void testApp::setupSrc(int srcID){
@@ -132,10 +149,16 @@ void testApp::setupSrc(int srcID){
     imageObject["origin"] = "cvserver";
     imageObject["processedImage"] = tmpfile;
 
+    int tgID = imageObject["tgImageID"].asInt();
+    cout <<"//TARGET ID  "<<tgID<<endl;
+    setupTarget(tgID);
     
     srcIMG.loadImage(url);
     srcIMG.update();
     
+    ofShader bw;
+    bw.setupShaderFromSource(GL_FRAGMENT_SHADER, bwShaderSrc);
+    bw.linkProgram();
     
     srcFbo.allocate(srcIMG.height, srcIMG.width);
     srcMaskFbo.allocate(srcIMG.width,srcIMG.height);
@@ -149,10 +172,8 @@ void testApp::setupSrc(int srcID){
     
     
     srcFbo.begin();
-    
     srcIMG.draw(0,0);
-    srcMesh.drawWireframe();
-   
+    //srcMesh.drawWireframe();
     srcFbo.end();
     
     
@@ -217,6 +238,22 @@ void testApp::cloneIMGs(){
     tgTestMesh.clearTexCoords();
     tgTestMesh.addTexCoords(srcPTS2D);
     
+    ofShader bw;
+    bw.load("bw");
+    //bw.setupShaderFromSource(GL_FRAGMENT_SHADER,bwShaderSrc);
+   // bw.setUniformTexture("tex", srcIMG, 0);
+   // bw.linkProgram();
+    
+    dbFbo.allocate(srcIMG.getWidth(), srcIMG.getHeight());
+    dbFbo.begin();
+  
+     bw.begin();
+     bw.setUniformTexture("tex", srcIMG.getTextureReference(),1);
+     srcIMG.draw(0,0);
+     bw.end();
+    srcIMG.draw(0,0,200,200);
+
+    dbFbo.end();
     
     srcFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
     srcFbo.begin();
@@ -225,7 +262,10 @@ void testApp::cloneIMGs(){
     //tgMesh.draw(); //default
     tgTestMesh.draw();
     srcIMG.unbind();
-    srcFbo.unbind();
+    srcFbo.end();
+    
+    
+   
     
     
     
@@ -240,15 +280,15 @@ void testApp::cloneIMGs(){
     tgMaskFbo.end();
     
     
-
+    
     
     
     
     
     clone.update(srcFbo.getTextureReference(),tgFbo.getTextureReference(),tgMaskFbo.getTextureReference());
 
-    dbFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
-    dbFbo.begin();
+   // dbFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
+ /*   dbFbo.begin();
     tgIMG.draw(0,0);
     //clone.draw(0,0); //default, only draw needed in the end.
     //path.draw();
@@ -259,7 +299,7 @@ void testApp::cloneIMGs(){
     tgTestMesh.draw();
 
     //testMesh.drawWireframe();
-    dbFbo.end();
+    dbFbo.end(); */
     
     canvas.allocate(tgIMG.getWidth(), tgIMG.getHeight());
     canvas.begin();
@@ -270,48 +310,18 @@ void testApp::cloneIMGs(){
 
     canvas.end();
     
+    
+    
+    
+    
+    
     sendImage();
     cloned = true;
+    
+    
 }
 
-void testApp::drawImage(){
-  /*  Json::Value tgimg = imageObject["sources"][0];
-    
-    string dir = imageObject["dir"].asString();
-    string filename = tgimg["filename"].asString();
-    string ext = imageObject["ext"].asString();
-    
-    string url = dir+filename+"."+ext;
-    cout <<"///image url "<<url<<endl;
-    
-    loadimg = false;
-    
-    tgIMG.loadImage(url);
-    canvas.allocate(tgIMG.getWidth(),tgIMG.getHeight());
-    
-    string time = ofGetTimestampString();
-    string tmpfile = dir+filename+time+"tracked."+ext;
-    
-    canvas.begin();
-    ofClear(127,0,255,127);
-    tgIMG.draw(0,0);
-    
-    ofSetColor(255,166,0,200);
-    ofCircle(ofRandom(canvas.getWidth()),ofRandom(canvas.getHeight()),60);
-    
-    ofImage itmp;
-    itmp.grabScreen(0,0,canvas.getWidth(),canvas.getHeight());
-    itmp.rotate90(2);
-    itmp.mirror(0,1);
-    itmp.saveImage(tmpfile);
-    
-    
-    canvas.end();
-    imageObject["origin"] = "cvserver";
-    imageObject["processedImage"] = tmpfile;
-    client.send(writer.write(imageObject));*/
-    
-}
+
 
 void testApp::loadPoints(string filename) {
 	ofFile file;
@@ -330,9 +340,6 @@ void testApp::loadPoints(string filename) {
 	}
 	cout << "Read " << filename << "." << endl;
 }
-
-
-
 
 
 //--------------------------------------------------------------
