@@ -28,7 +28,7 @@ void testApp::setup(){
     server.addListener(this);
     
     ofBackground(0);
-    ofSetFrameRate(60);
+ //   ofSetFrameRate(60);
     
     //setup fbos
     canvas.allocate(600, 600);
@@ -241,7 +241,7 @@ void testApp::cloneIMGs(){
    // bw.setUniformTexture("tex", srcIMG, 0);
    // bw.linkProgram();
     
-    dbFbo.allocate(srcIMG.getWidth(), srcIMG.getHeight());
+   /* dbFbo.allocate(srcIMG.getWidth(), srcIMG.getHeight());
     dbFbo.begin();
   
      bw.begin();
@@ -250,7 +250,7 @@ void testApp::cloneIMGs(){
      bw.end();
     srcIMG.draw(0,0,200,200);
 
-    dbFbo.end();
+    dbFbo.end(); */
     
     srcFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
     srcFbo.begin();
