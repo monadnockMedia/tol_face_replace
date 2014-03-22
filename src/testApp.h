@@ -13,7 +13,7 @@
 #define NUM_MESSAGES 30 // how many past messages we want to keep
 
 class testApp : public ofBaseApp{
-    int debug = 1;
+    bool debug = true;
 	public:
 		void setup();
 		void update();
@@ -73,7 +73,7 @@ class testApp : public ofBaseApp{
 	vector<ofVec2f> srcPoints, tgPoints;
     
     ofMesh tgMesh, srcMesh;
-    ofFbo canvas, srcFbo, tgFbo, srcMaskFbo,tgMaskFbo, dbFbo;
+    ofFbo canvas, srcFbo, tgFbo, srcMaskFbo,tgMaskFbo, dbFbo, tgDBFbo, srcDBFbo;
     Clone clone;
     
 };

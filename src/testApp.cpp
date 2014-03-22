@@ -34,7 +34,7 @@ void testApp::setup(){
     canvas.allocate(600, 600);
     srcFbo.allocate(600,600);
     tgFbo.allocate(600,600);
-    srcMaskFbo.allocate(600,600);
+   // srcMaskFbo.allocate(600,600);
    
     //setup trackers
     srcTracker.setup();
@@ -60,17 +60,13 @@ void testApp::draw(){
 
    
     
-  //  srcFbo.draw(0,600, 600,600);
-    
-   // srcFbo.draw(0,0,600,600);
-    //tgMaskFbo.draw(600,0,600,600);
-  
-     //tgFbo.draw(0,0,600,600);
+    tgDBFbo.draw(0,0,400,400);
+    srcDBFbo.draw(400,0,400,400);
     
     if(cloned){
         //clone.draw(0,0);
-        canvas.draw(0,600,600,600);   }
-        dbFbo.draw(600,600,600,600);
+        canvas.draw(0,400,600,600);
+        dbFbo.draw(600,400,600,600);}
     
     if ( bConnected ){
         ofDrawBitmapString("WebSocket server setup at "+ofToString( server.getPort() ) + ( server.usingSSL() ? " with SSL" : " without SSL"), 20, 20);
@@ -110,10 +106,7 @@ void testApp::setupTarget(int tgID){
     cout << "loading " << fn<<endl;
     
     tgIMG.setFromPixels(tgPixels[tgID]);
-    //tgIMG.loadImage(fn);
-    //tgIMG.update();
     tgFbo.allocate(tgIMG.getWidth(),tgIMG.getHeight());
-    
     
     tgTracker.update(toCv(tgIMG));
     if(tgTracker.getFound()){
@@ -125,9 +118,16 @@ void testApp::setupTarget(int tgID){
     
     tgFbo.begin();
     tgIMG.draw(0,0);
-   // tgMesh.drawWireframe();
-  //  tgMesh.drawWireframe();
     tgFbo.end();
+    
+    tgDBFbo.allocate(tgIMG.height,tgIMG.width);
+    tgDBFbo.begin();
+    tgIMG.draw(0,0);
+    ofNoFill();
+    ofSetColor(0, 0, 255);
+    tgMesh.drawWireframe();
+    ofSetColor(255,255,255);
+    tgDBFbo.end();
 }
 
 
@@ -151,38 +151,33 @@ void testApp::setupSrc(int srcID){
 
     int tgID = imageObject["tgImageID"].asInt();
     cout <<"//TARGET ID  "<<tgID<<endl;
-    setupTarget(tgID);
+    
+    
     
     srcIMG.loadImage(url);
     srcIMG.update();
     
-    
     srcFbo.allocate(srcIMG.height, srcIMG.width);
-    srcMaskFbo.allocate(srcIMG.width,srcIMG.height);
-    ///////
+  //  srcMaskFbo.allocate(srcIMG.width,srcIMG.height);
     
     srcTracker.update(toCv(srcIMG));
     ofMesh srcMesh = srcTracker.getImageMesh();
     srcPoints = srcTracker.getImagePoints();
-    
-    
-    
-    
-    srcFbo.begin();
-    srcIMG.draw(0,0);
-    //srcMesh.drawWireframe();
-    srcFbo.end();
-    
-    
 
+    srcDBFbo.allocate(srcIMG.height,srcIMG.width);
+    srcDBFbo.begin();
     
-    srcMaskFbo.begin();
-    ofClear(0, 255);
-    srcMesh.draw();
-    srcMaskFbo.end();
+    srcIMG.draw(0,0);
+    ofNoFill();
+    ofSetColor(255, 0, 0);
+    srcMesh.drawWireframe();
+    ofSetColor(255,255,255);
+    srcDBFbo.end();
     
+    setupTarget(tgID);
     cloneIMGs();
 }
+
 
 ofMesh testApp::makeMesh( vector<ofVec3f> & pts){
     ofMesh mesh;
@@ -191,6 +186,7 @@ ofMesh testApp::makeMesh( vector<ofVec3f> & pts){
     for(int i = 0; i < pts.size(); i++){
         mesh.addVertex(pts[i]);
     }
+    
     return mesh;
 }
 
@@ -218,8 +214,17 @@ void testApp::cloneIMGs(){
     clone.setup(tgIMG.getWidth(), tgIMG.getHeight());
     clone.setStrength(30);
     
-    tgMesh.clearTexCoords();
-    tgMesh.addTexCoords(srcPoints);
+    //tgMesh.clearTexCoords();
+    //tgMesh.addTexCoords(srcPoints);
+    
+    srcDBFbo.begin();
+    ofSetColor(255,0,255);
+    ofFill();
+    for (int i = 0; i<srcPoints.size(); i++){
+        ofCircle(srcPoints[i].x,srcPoints[i].y, 4);
+    }
+    ofSetColor(255,255,255);
+    srcDBFbo.end();
     
     
     vector<ofVec3f> tgPTS = tgTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE).getVertices();
@@ -230,27 +235,11 @@ void testApp::cloneIMGs(){
     vector<ofVec2f> srcPTS2D = vec3D2vec2D(srcPTS);
 
     
-    
-    
     tgTestMesh.clearTexCoords();
     tgTestMesh.addTexCoords(srcPTS2D);
     
     ofShader bw;
     bw.load("bw");
-    //bw.setupShaderFromSource(GL_FRAGMENT_SHADER,bwShaderSrc);
-   // bw.setUniformTexture("tex", srcIMG, 0);
-   // bw.linkProgram();
-    
-   /* dbFbo.allocate(srcIMG.getWidth(), srcIMG.getHeight());
-    dbFbo.begin();
-  
-     bw.begin();
-     bw.setUniformTexture("tex", srcIMG.getTextureReference(),1);
-     srcIMG.draw(0,0);
-     bw.end();
-    srcIMG.draw(0,0,200,200);
-
-    dbFbo.end(); */
     
     srcFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
     srcFbo.begin();
@@ -260,8 +249,10 @@ void testApp::cloneIMGs(){
     srcIMG.bind();
     //tgMesh.draw(); //default
     tgTestMesh.draw();
+    
     srcIMG.unbind();
     bw.end();
+    tgMesh.drawWireframe();
     srcFbo.end();
     
     
