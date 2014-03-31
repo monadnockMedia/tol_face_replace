@@ -186,7 +186,7 @@ ofMesh testApp::makeMesh( vector<ofVec3f> & pts){
     for(int i = 0; i < pts.size(); i++){
         mesh.addVertex(pts[i]);
     }
-    
+    // mesh.addVertex(pts[0]);
     return mesh;
 }
 
@@ -195,6 +195,7 @@ vector<ofVec2f> vec3D2vec2D(vector<ofVec3f> &v){
     for(int i = 0; i<v.size();i++){
         pts.push_back(ofVec2f(v[i][0],v[i][1]));
     }
+    pts.push_back(ofVec2f(v[0][0],v[0][1]));
     return pts;
 }
 
@@ -214,8 +215,8 @@ void testApp::cloneIMGs(){
     clone.setup(tgIMG.getWidth(), tgIMG.getHeight());
     clone.setStrength(30);
     
-    //tgMesh.clearTexCoords();
-    //tgMesh.addTexCoords(srcPoints);
+    tgMesh.clearTexCoords();
+    tgMesh.addTexCoords(srcPoints);
     
     srcDBFbo.begin();
     ofSetColor(255,0,255);
@@ -252,7 +253,7 @@ void testApp::cloneIMGs(){
     
     srcIMG.unbind();
     bw.end();
-    tgMesh.drawWireframe();
+    //tgMesh.drawWireframe();
     srcFbo.end();
     
     

@@ -871,11 +871,11 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				8E5EF53318D750E70058B23C /* Clone.h */,
-				8E5EF53418D750E70058B23C /* Clone.cpp */,
 				8EDBA49318CFAA7B00922604 /* testApp.h */,
 				8EDBA49418CFAA7B00922604 /* testApp.cpp */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
+				8E5EF53318D750E70058B23C /* Clone.h */,
+				8E5EF53418D750E70058B23C /* Clone.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

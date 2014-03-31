@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>42A1E29F-858A-4D55-AB58-5BFA6B0C914B</string>
+	<string>DE42A93B-4146-4290-AAD0-FCF1C8FAC148</string>
 	<key>IDESourceControlProjectName</key>
 	<string>tol_face_replace</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -16,10 +16,12 @@
 		<string>https://github.com/labatrockwell/ofxLibwebsockets.git</string>
 		<key>3F3B0895-994D-40EE-AE93-47D0D1EB5D84</key>
 		<string>https://github.com/kylemcdonald/ofxFaceTracker.git</string>
-		<key>4B62EFAC-4582-4A03-85BA-2CE2293590A9</key>
+		<key>42A6A2EC-0DB7-4C33-9A57-174B864D967F</key>
 		<string>https://github.com/openframeworks/openFrameworks.git</string>
 		<key>6B342B10-9762-4A22-BC73-E0EE3D2D62BD</key>
 		<string>https://github.com/arturoc/FaceSubstitution.git</string>
+		<key>F0D86FED-D94A-4068-B9E1-930A1D3EDBB2</key>
+		<string>https://github.com/monadnockMedia/tol_face_replace.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>apps/tol/tol_face_replace/tol_face_replace.xcodeproj/project.xcworkspace</string>
@@ -31,17 +33,19 @@
 		<string>../../../../../addons/ofxLibwebsockets</string>
 		<key>3F3B0895-994D-40EE-AE93-47D0D1EB5D84</key>
 		<string>../../../../../addons/ofxFaceTracker</string>
-		<key>4B62EFAC-4582-4A03-85BA-2CE2293590A9</key>
+		<key>42A6A2EC-0DB7-4C33-9A57-174B864D967F</key>
 		<string>../../../../..</string>
 		<key>6B342B10-9762-4A22-BC73-E0EE3D2D62BD</key>
 		<string>../../../../FaceSubstitution</string>
+		<key>F0D86FED-D94A-4068-B9E1-930A1D3EDBB2</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/openframeworks/openFrameworks.git</string>
+	<string>https://github.com/monadnockMedia/tol_face_replace.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>4B62EFAC-4582-4A03-85BA-2CE2293590A9</string>
+	<string>42A6A2EC-0DB7-4C33-9A57-174B864D967F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -80,9 +84,17 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>4B62EFAC-4582-4A03-85BA-2CE2293590A9</string>
+			<string>42A6A2EC-0DB7-4C33-9A57-174B864D967F</string>
 			<key>IDESourceControlWCCName</key>
 			<string>openFrameworks</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F0D86FED-D94A-4068-B9E1-930A1D3EDBB2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>tol_face_replace</string>
 		</dict>
 	</array>
 </dict>
