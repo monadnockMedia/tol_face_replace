@@ -30,6 +30,9 @@
 		86135253DC7909CA8590E157 /* Protocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57EEFEC8B85F7C3B15DD45A4 /* Protocol.cpp */; };
 		8AC885FBC5325950337592D2 /* ExpressionClassifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C4F6F873496C3527A28B87F4 /* ExpressionClassifier.cpp */; };
 		8E5EF53518D750E70058B23C /* Clone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E5EF53418D750E70058B23C /* Clone.cpp */; };
+		8E9DA09A18E9C05D005055AE /* assert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E9DA09018E9C05D005055AE /* assert.cpp */; };
+		8E9DA09B18E9C05D005055AE /* del_impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E9DA09118E9C05D005055AE /* del_impl.cpp */; };
+		8E9DA09C18E9C05D005055AE /* ofxTriangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E9DA09418E9C05D005055AE /* ofxTriangle.cpp */; };
 		8EDBA49518CFAA7B00922604 /* testApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8EDBA49418CFAA7B00922604 /* testApp.cpp */; };
 		9EF1133BC23669A5C94FE30F /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69668FDE141262BC3C6CA929 /* jsoncpp.cpp */; };
 		9F4DA577D30F7B7CA7B8E5F8 /* FCheck.cc in Sources */ = {isa = PBXBuildFile; fileRef = C415F439B09BAEBA3FB3710F /* FCheck.cc */; };
@@ -182,6 +185,15 @@
 		8E5EF53318D750E70058B23C /* Clone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Clone.h; sourceTree = "<group>"; };
 		8E5EF53418D750E70058B23C /* Clone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Clone.cpp; sourceTree = "<group>"; };
 		8E79CF8911DFABAFE23EA45B /* ofxCvConstants.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCvConstants.h; path = ../../../addons/ofxOpenCv/src/ofxCvConstants.h; sourceTree = SOURCE_ROOT; };
+		8E9DA08A18E9C05D005055AE /* assert.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = assert.hpp; sourceTree = "<group>"; };
+		8E9DA08B18E9C05D005055AE /* del_interface.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = del_interface.hpp; sourceTree = "<group>"; };
+		8E9DA08C18E9C05D005055AE /* dpoint.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = dpoint.hpp; sourceTree = "<group>"; };
+		8E9DA08D18E9C05D005055AE /* triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = triangle.h; sourceTree = "<group>"; };
+		8E9DA08E18E9C05D005055AE /* triangle_impl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = triangle_impl.hpp; sourceTree = "<group>"; };
+		8E9DA09018E9C05D005055AE /* assert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assert.cpp; sourceTree = "<group>"; };
+		8E9DA09118E9C05D005055AE /* del_impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = del_impl.cpp; sourceTree = "<group>"; };
+		8E9DA09418E9C05D005055AE /* ofxTriangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTriangle.cpp; sourceTree = "<group>"; };
+		8E9DA09518E9C05D005055AE /* ofxTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTriangle.h; sourceTree = "<group>"; };
 		8EDBA49318CFAA7B00922604 /* testApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testApp.h; sourceTree = "<group>"; };
 		8EDBA49418CFAA7B00922604 /* testApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testApp.cpp; sourceTree = "<group>"; };
 		946187321200AC04E570E6EC /* hierarchical_clustering_index.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = hierarchical_clustering_index.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/hierarchical_clustering_index.h; sourceTree = SOURCE_ROOT; };
@@ -627,6 +639,63 @@
 			name = FaceTracker;
 			sourceTree = "<group>";
 		};
+		8E9DA06918E9C05C005055AE /* ofxTriangle */ = {
+			isa = PBXGroup;
+			children = (
+				8E9DA08718E9C05D005055AE /* libs */,
+				8E9DA09318E9C05D005055AE /* src */,
+			);
+			name = ofxTriangle;
+			path = ../../../addons/ofxTriangle;
+			sourceTree = "<group>";
+		};
+		8E9DA08718E9C05D005055AE /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				8E9DA08818E9C05D005055AE /* Triangle */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		8E9DA08818E9C05D005055AE /* Triangle */ = {
+			isa = PBXGroup;
+			children = (
+				8E9DA08918E9C05D005055AE /* include */,
+				8E9DA08F18E9C05D005055AE /* src */,
+			);
+			path = Triangle;
+			sourceTree = "<group>";
+		};
+		8E9DA08918E9C05D005055AE /* include */ = {
+			isa = PBXGroup;
+			children = (
+				8E9DA08A18E9C05D005055AE /* assert.hpp */,
+				8E9DA08B18E9C05D005055AE /* del_interface.hpp */,
+				8E9DA08C18E9C05D005055AE /* dpoint.hpp */,
+				8E9DA08D18E9C05D005055AE /* triangle.h */,
+				8E9DA08E18E9C05D005055AE /* triangle_impl.hpp */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		8E9DA08F18E9C05D005055AE /* src */ = {
+			isa = PBXGroup;
+			children = (
+				8E9DA09018E9C05D005055AE /* assert.cpp */,
+				8E9DA09118E9C05D005055AE /* del_impl.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		8E9DA09318E9C05D005055AE /* src */ = {
+			isa = PBXGroup;
+			children = (
+				8E9DA09418E9C05D005055AE /* ofxTriangle.cpp */,
+				8E9DA09518E9C05D005055AE /* ofxTriangle.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		90D509C72729D1998E28A98F /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -716,6 +785,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				8E9DA06918E9C05C005055AE /* ofxTriangle */,
 				A0B90D3B0ADB9C1716816714 /* ofxOpenCv */,
 				F5F1F1EF8441E64FD46F07C8 /* ofxSvg */,
 				6025FAF6414C2CA589764D26 /* ofxCv */,
@@ -1076,7 +1146,9 @@
 				A6668C5B1272D7FCD5B5A16F /* Utilities.cpp in Sources */,
 				DBCB84A37F9AECC254870D79 /* Wrappers.cpp in Sources */,
 				F451166A6C72528F3F009F6C /* Expression.cpp in Sources */,
+				8E9DA09A18E9C05D005055AE /* assert.cpp in Sources */,
 				8AC885FBC5325950337592D2 /* ExpressionClassifier.cpp in Sources */,
+				8E9DA09C18E9C05D005055AE /* ofxTriangle.cpp in Sources */,
 				24735CD2E138DC5C1F0A1085 /* ofxFaceTracker.cpp in Sources */,
 				80AE40254BBE0F03C25563C1 /* CLM.cc in Sources */,
 				9F4DA577D30F7B7CA7B8E5F8 /* FCheck.cc in Sources */,
@@ -1089,6 +1161,7 @@
 				9EF1133BC23669A5C94FE30F /* jsoncpp.cpp in Sources */,
 				F3AD9E2A2E56B6AF32A0BDAF /* Server.cpp in Sources */,
 				6D73A566CFEC0B462FE6E43C /* Reactor.cpp in Sources */,
+				8E9DA09B18E9C05D005055AE /* del_impl.cpp in Sources */,
 				86135253DC7909CA8590E157 /* Protocol.cpp in Sources */,
 				F1AC6AEFB9B93C6AC45C9CA8 /* Events.cpp in Sources */,
 				8EDBA49518CFAA7B00922604 /* testApp.cpp in Sources */,

@@ -41,9 +41,9 @@ void testApp::setup(){
     srcTracker.setIterations(25);
     srcTracker.setAttempts(4);
     
-    tgTracker.setup();
-    tgTracker.setIterations(25);
-    tgTracker.setAttempts(4);
+   // tgTracker.setup();
+   // tgTracker.setIterations(25);
+   // tgTracker.setAttempts(4);
     
     buildTargets();
     
@@ -51,7 +51,7 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-     if(loadimg) setupSrc(0);
+     if(loadimg) setupSrcs(0);
 }
 
 //--------------------------------------------------------------
@@ -60,8 +60,8 @@ void testApp::draw(){
 
    
     
-    tgDBFbo.draw(0,0,400,400);
-    srcDBFbo.draw(400,0,400,400);
+    tgDBFbo.draw(0,0);
+    srcDBFbo.draw(600,0,400,400);
     
     if(cloned){
         //clone.draw(0,0);
@@ -95,25 +95,52 @@ void testApp::draw(){
    }
 
 void testApp::buildTargets(){
+    
+    
     for (int i = 0; i< tgNum; i++ ){
-        ofLoadImage(tgPixels[i], tgNames[i]+".jpg");
+        
     }
+    
+    string settings = ofFile("targets.json").readToBuffer();
+    bool read = reader.parse(settings, tgSettings);
+    cout << tgSettings.toStyledString() << endl;
+    for (int i = 0; i< tgSettings.size(); i++){  //for each target image
+        
+        cout << "settings index : " << i <<  "   URI: " << tgSettings[i][0]["img_uri"].asString() <<endl;
+        
+        vector<ofMesh> tmpBin;
+        
+        ofLoadImage(tgPixels[i], tgSettings[i][0]["img_uri"].asString());  //load the target image to the pixel array
+        
+        for (int j = 0; j<tgSettings[i].size(); j++){ //for each face
+            ofMesh tmpMesh;
+            cout << "\t child index : " << j << endl;
+            tmpMesh.load("mesh/"+tgSettings[i][j]["mesh_uri"].asString());
+            tmpBin.push_back(tmpMesh);
+            tmpMesh.clear();
+        }
+        tgMeshes.push_back(tmpBin);
+        
+    }
+    
+    
 }
 
 void testApp::setupTarget(int tgID){
-    
-    string fn = tgNames[tgID]+".jpg";
+    currentTg  = tgID;
+    string fn = tgSettings[tgID][0]["img_uri"].asString();
     cout << "loading " << fn<<endl;
-    
     tgIMG.setFromPixels(tgPixels[tgID]);
     tgFbo.allocate(tgIMG.getWidth(),tgIMG.getHeight());
     
-    tgTracker.update(toCv(tgIMG));
+    
+    /*tgTracker.update(toCv(tgIMG));
     if(tgTracker.getFound()){
         tgMesh = tgTracker.getImageMesh();
     }else{
         messages.push_back("could not find face in target");
-    }
+    }*/
+    
 
     
     tgFbo.begin();
@@ -122,9 +149,12 @@ void testApp::setupTarget(int tgID){
     
     tgDBFbo.allocate(tgIMG.height,tgIMG.width);
     tgDBFbo.begin();
+    ofClear(0,255);
+
     tgIMG.draw(0,0);
+
     ofNoFill();
-    ofSetColor(0, 0, 255);
+    ofSetColor(255, 255, 255);
     tgMesh.drawWireframe();
     ofSetColor(255,255,255);
     tgDBFbo.end();
@@ -133,61 +163,54 @@ void testApp::setupTarget(int tgID){
 
 
 
-void testApp::setupSrc(int srcID){
-    loadimg = false;
+void testApp::setupSrcs(int srcID){
+    srcPx.clear();
     
-    Json::Value sources = imageObject["sources"];
+    loadimg = false;
+    sources = imageObject["sources"];
     cout <<"///SOURCES"<< sources.toStyledString() << endl;
     cout << "///tgImg "<< sources[srcID]["filename"].asString() << endl;;
     string dir = imageObject["dir"].asString();
-    string filename = sources[srcID]["filename"].asString();
+   
     string ext = imageObject["ext"].asString();
-    string url = dir+filename+"."+ext;
-    cout <<"image url "<<url<<endl;
+    
     string time = ofGetTimestampString();
-    string tmpfile = dir+filename+time+"tracked."+ext;
+    string tmpfile = dir+time+"tracked."+ext;
     imageObject["origin"] = "cvserver";
     imageObject["processedImage"] = tmpfile;
 
     int tgID = imageObject["tgImageID"].asInt();
     cout <<"//TARGET ID  "<<tgID<<endl;
     
+    srcPx.resize(sources.size());
+    
+    for(int i = 0; i < sources.size(); i++){
+        
+        string fname = sources[i]["filename"].asString()+"."+ext;
+        string url = dir+fname;
+        cout <<"image url "<<url<<endl;
+        ofPixels p;
+        ofLoadImage(p, url);
+        int j = sources[i]["faceID"].asInt();
+        cout <<"image index "<<j<<endl;
+        srcPx[j] = p;
+        cout << "SOURCEPX  :  " << srcPx[0].size() << endl;
+     }
     
     
-    srcIMG.loadImage(url);
-    srcIMG.update();
-    
-    srcFbo.allocate(srcIMG.height, srcIMG.width);
-  //  srcMaskFbo.allocate(srcIMG.width,srcIMG.height);
-    
-    srcTracker.update(toCv(srcIMG));
-    ofMesh srcMesh = srcTracker.getImageMesh();
-    srcPoints = srcTracker.getImagePoints();
-
-    srcDBFbo.allocate(srcIMG.height,srcIMG.width);
-    srcDBFbo.begin();
-    
-    srcIMG.draw(0,0);
-    ofNoFill();
-    ofSetColor(255, 0, 0);
-    srcMesh.drawWireframe();
-    ofSetColor(255,255,255);
-    srcDBFbo.end();
     
     setupTarget(tgID);
     cloneIMGs();
 }
 
-
-ofMesh testApp::makeMesh( vector<ofVec3f> & pts){
-    ofMesh mesh;
-    mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
-    
-    for(int i = 0; i < pts.size(); i++){
-        mesh.addVertex(pts[i]);
-    }
-    // mesh.addVertex(pts[0]);
-    return mesh;
+void testApp::updateSrc(int srcID){
+    srcIMG.setFromPixels(srcPx[srcID]);
+    //srcIMG.loadImage(url);
+    srcFbo.allocate(srcIMG.height, srcIMG.width);
+    srcTracker.update(toCv(srcIMG));
+    srcPoints = srcTracker.getImagePoints();
+    srcMesh = makeMesh(srcTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE));
+    srcPoints = srcMesh.getTexCoords();
 }
 
 vector<ofVec2f> vec3D2vec2D(vector<ofVec3f> &v){
@@ -199,6 +222,55 @@ vector<ofVec2f> vec3D2vec2D(vector<ofVec3f> &v){
     return pts;
 }
 
+/*ofMesh testApp::makeMesh(ofPolyline line){
+    
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+    triangle.clear();
+    triangle.triangulate(line.getVertices());
+    cout << "triangulated" <<endl;
+    
+   //for(int i = triangle.nTriangles; i>=0;  i--){
+    for(int i = 0; i< triangle.nTriangles;  i++){
+        
+        mesh.addVertex(ofVec2f(triangle.triangles[i].a.x ,triangle.triangles[i].a.y));
+       mesh.addTexCoord(ofVec2f(triangle.triangles[i].a.x ,triangle.triangles[i].a.y));
+        
+        mesh.addVertex(ofVec2f(triangle.triangles[i].b.x ,triangle.triangles[i].b.y));
+      mesh.addTexCoord(ofVec2f(triangle.triangles[i].b.x ,triangle.triangles[i].b.y));
+
+        mesh.addVertex(ofVec2f(triangle.triangles[i].c.x ,triangle.triangles[i].c.y));
+      mesh.addTexCoord(ofVec2f(triangle.triangles[i].c.x ,triangle.triangles[i].c.y));
+  
+
+    }
+    return mesh;
+
+}*/
+
+ofMesh testApp::makeMesh(ofPolyline line){
+    
+    ofMesh mesh;
+    mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+    //for(int i = triangle.nTriangles; i>=0;  i--){
+    int l = line.size();
+    for(int i = 0; i< l;  i++){
+        
+        int j = (i +(18) )%l;
+        
+        mesh.addVertex(line.getPointAtIndexInterpolated(j));
+        mesh.addTexCoord(line.getPointAtIndexInterpolated(j));
+        
+     
+        
+        
+    }
+    return mesh;
+    
+}
+
+
+
 void testApp::sendImage(){
     string fname = imageObject["processedImage"].asString();
     mashIMG.saveImage(fname);
@@ -209,35 +281,51 @@ void testApp::sendImage(){
 
 void testApp::cloneIMGs(){
     
-    string fname = imageObject["processedImage"].asString();
-    
     
     clone.setup(tgIMG.getWidth(), tgIMG.getHeight());
     clone.setStrength(30);
+  
     
+    tgMesh = tgMeshes[currentTg][0];
+    updateSrc(0);
+    
+    tgMesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
     tgMesh.clearTexCoords();
     tgMesh.addTexCoords(srcPoints);
     
+    srcDBFbo.allocate(srcIMG.width, srcIMG.height);
     srcDBFbo.begin();
-    ofSetColor(255,0,255);
-    ofFill();
-    for (int i = 0; i<srcPoints.size(); i++){
-        ofCircle(srcPoints[i].x,srcPoints[i].y, 4);
+    
+    ofClear(0,255);
+    ofSetColor(255,255,255);
+    srcIMG.bind();
+   
+    srcMesh.draw();
+    srcIMG.unbind();
+    srcMesh.drawWireframe();
+    ofSetColor(255,0,0);
+    
+    vector<ofVec3f> srcV = srcMesh.getVertices();
+    
+    for(int i = 0; i< srcV.size(); i++){
+        ofDrawBitmapString(ofToString(i), srcV[i].x, srcV[i].y );
     }
     ofSetColor(255,255,255);
     srcDBFbo.end();
     
     
-    vector<ofVec3f> tgPTS = tgTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE).getVertices();
-    vector<ofVec2f> tgPTS2D = vec3D2vec2D(tgPTS);
-    ofMesh tgTestMesh = makeMesh(tgPTS);
+    //vector<ofVec3f> tgPTS = tgTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE).getVertices();
+    //vector<ofVec2f> tgPTS2D = vec3D2vec2D(tgPTS);
+    //ofMesh tgTestMesh = makeMesh(tgPTS);
     
-    vector<ofVec3f> srcPTS = srcTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE).getVertices();
-    vector<ofVec2f> srcPTS2D = vec3D2vec2D(srcPTS);
-
+   // vector<ofVec3f> srcPTS = srcTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE).getVertices();
+    //vector<ofVec2f> srcPTS2D = vec3D2vec2D(srcPTS);
     
-    tgTestMesh.clearTexCoords();
-    tgTestMesh.addTexCoords(srcPTS2D);
+    
+    
+    //ofMesh tgTestMesh = tgMesh;
+    //tgTestMesh.clearTexCoords();
+    //tgTestMesh.addTexCoords(srcPoints);
     
     ofShader bw;
     bw.load("bw");
@@ -249,8 +337,8 @@ void testApp::cloneIMGs(){
     ofClear(0,255);
     srcIMG.bind();
     //tgMesh.draw(); //default
-    tgTestMesh.draw();
-    
+    //tgTestMesh.draw();
+    tgMesh.draw();
     srcIMG.unbind();
     bw.end();
     //tgMesh.drawWireframe();
@@ -267,7 +355,8 @@ void testApp::cloneIMGs(){
     tgMaskFbo.begin();
     ofClear(0, 255);
     //path.draw();
-    tgTestMesh.draw();
+    //tgTestMesh.draw();
+    tgMesh.draw();
     //tgMesh.draw(); //this is default
     tgMaskFbo.end();
     
@@ -279,19 +368,7 @@ void testApp::cloneIMGs(){
     
     clone.update(srcFbo.getTextureReference(),tgFbo.getTextureReference(),tgMaskFbo.getTextureReference());
 
-   // dbFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
- /*   dbFbo.begin();
-    tgIMG.draw(0,0);
-    //clone.draw(0,0); //default, only draw needed in the end.
-    //path.draw();
-    //tgMaskFbo.draw(0,0);
-    
-    srcIMG.bind();
-    //tgMesh.draw(); //default
-    tgTestMesh.draw();
 
-    //testMesh.drawWireframe();
-    dbFbo.end(); */
     
     canvas.allocate(tgIMG.getWidth(), tgIMG.getHeight());
     canvas.begin();

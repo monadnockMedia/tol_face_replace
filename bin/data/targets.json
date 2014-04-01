@@ -1,0 +1,16 @@
+[
+
+[{"boundary":{"height":112.3330993652344,"width":111.1425170898438,"x":331.8446960449219,"y":425.4370422363281},"img_size":{"height":1024.0,"width":768.0},"img_uri":"0_lifering.jpg","mesh_uri":"0_lifering0.ply"}],
+
+[{"boundary":{"height":89.29566955566406,"width":88.41581726074219,"x":219.2189178466797,"y":243.2506866455078},"img_size":{"height":1216.0,"width":768.0},"img_uri":"2_crew.jpg","mesh_uri":"2_crew0.ply"},{"boundary":{"height":83.80624389648438,"width":84.20635986328125,"x":619.2694702148438,"y":240.9641418457031},"img_size":{"height":1216.0,"width":768.0},"img_uri":"2_crew.jpg","mesh_uri":"2_crew1.ply"}],
+
+[{"boundary":{"height":63.51473999023438,"width":59.74846649169922,"x":84.28862762451172,"y":117.3846435546875},"img_size":{"height":768.0,"width":1024.0},"img_uri":"3_walk.jpg","mesh_uri":"3_walk0.ply"},{"boundary":{"height":66.34900665283203,"width":61.43911743164062,"x":264.5826110839844,"y":103.5359878540039},"img_size":{"height":768.0,"width":1024.0},"img_uri":"3_walk.jpg","mesh_uri":"3_walk1.ply"},{"boundary":{"height":61.69168090820312,"width":59.58489990234375,"x":483.5498657226562,"y":137.309082031250},"img_size":{"height":768.0,"width":1024.0},"img_uri":"3_walk.jpg","mesh_uri":"3_walk2.ply"},{"boundary":{"height":68.08926391601562,"width":62.61816406250,"x":670.0163574218750,"y":81.04142761230469},"img_size":{"height":768.0,"width":1024.0},"img_uri":"3_walk.jpg","mesh_uri":"3_walk3.ply"}],
+
+[{"boundary":{"height":57.29562759399414,"width":56.49191284179688,"x":244.3592224121094,"y":38.19861984252930},"img_size":{"height":768.0,"width":955.0},"img_uri":"4_couples.jpg","mesh_uri":"4_couples0.ply"},{"boundary":{"height":54.88053131103516,"width":55.10308837890625,"x":391.2100219726562,"y":96.14598846435547},"img_size":{"height":768.0,"width":955.0},"img_uri":"4_couples.jpg","mesh_uri":"4_couples1.ply"},{"boundary":{"height":58.07643890380859,"width":56.14196777343750,"x":535.7061157226562,"y":74.59407806396484},"img_size":{"height":768.0,"width":955.0},"img_uri":"4_couples.jpg","mesh_uri":"4_couples2.ply"},{"boundary":{"height":52.64125061035156,"width":54.0031738281250,"x":668.1316528320312,"y":134.9147796630859},"img_size":{"height":768.0,"width":955.0},"img_uri":"4_couples.jpg","mesh_uri":"4_couples3.ply"}
+],
+
+[{"boundary":{"height":52.70828247070312,"width":53.32109832763672,"x":121.3102798461914,"y":343.1733093261719},"img_size":{"height":960.0,"width":768.0},"img_uri":"5_kids.jpg","mesh_uri":"5_kids0.ply"},{"boundary":{"height":53.298339843750,"width":52.97346496582031,"x":254.8235626220703,"y":372.1814575195312},"img_size":{"height":960.0,"width":768.0},"img_uri":"5_kids.jpg","mesh_uri":"5_kids1.ply"},{"boundary":{"height":53.298339843750,"width":52.97346496582031,"x":254.8235626220703,"y":372.1814575195312},"img_size":{"height":960.0,"width":768.0},"img_uri":"5_kids.jpg","mesh_uri":"5_kids1.ply"},{"boundary":{"height":61.34143066406250,"width":63.31817626953125,"x":607.9824829101562,"y":297.6947326660156},"img_size":{"height":960.0,"width":768.0},"img_uri":"5_kids.jpg","mesh_uri":"5_kids3.ply"}]
+
+
+
+]
