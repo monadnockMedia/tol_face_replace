@@ -60,13 +60,20 @@ void testApp::draw(){
 
    
     
-    tgDBFbo.draw(0,0);
-    srcDBFbo.draw(600,0,400,400);
+   
+    
     
     if(cloned){
         //clone.draw(0,0);
-        canvas.draw(0,400,600,600);
-        dbFbo.draw(600,400,600,600);}
+        //canvas.draw(0,400,600,600);
+        dbFbo.draw(600,400,600,600);
+        for (int i = 0; i< DBFbos.size(); i++){
+            DBFbos[i].draw(i*400,0,400,500);
+        }
+    }
+    
+    srcDBFbo.draw(0,600,400,400);
+     tgDBFbo.draw(600,0, 400, 400);
     
     if ( bConnected ){
         ofDrawBitmapString("WebSocket server setup at "+ofToString( server.getPort() ) + ( server.usingSSL() ? " with SSL" : " without SSL"), 20, 20);
@@ -114,8 +121,9 @@ void testApp::buildTargets(){
         
         for (int j = 0; j<tgSettings[i].size(); j++){ //for each face
             ofMesh tmpMesh;
-            cout << "\t child index : " << j << endl;
+            cout << "\t child index : " << j <<  "\t \t mesh at:  " << "mesh/"+tgSettings[i][j]["mesh_uri"].asString() << endl;
             tmpMesh.load("mesh/"+tgSettings[i][j]["mesh_uri"].asString());
+            cout << "\t \t mesh loaded with vertices: " << tmpMesh.getVertices().size() << endl;
             tmpBin.push_back(tmpMesh);
             tmpMesh.clear();
         }
@@ -165,7 +173,7 @@ void testApp::setupTarget(int tgID){
 
 void testApp::setupSrcs(int srcID){
     srcPx.clear();
-    
+    DBFbos.clear();
     loadimg = false;
     sources = imageObject["sources"];
     cout <<"///SOURCES"<< sources.toStyledString() << endl;
@@ -182,6 +190,8 @@ void testApp::setupSrcs(int srcID){
     int tgID = imageObject["tgImageID"].asInt();
     cout <<"//TARGET ID  "<<tgID<<endl;
     
+    int numFaces = tgMeshes[tgID].size();
+    
     srcPx.resize(sources.size());
     
     for(int i = 0; i < sources.size(); i++){
@@ -191,10 +201,7 @@ void testApp::setupSrcs(int srcID){
         cout <<"image url "<<url<<endl;
         ofPixels p;
         ofLoadImage(p, url);
-        int j = sources[i]["faceID"].asInt();
-        cout <<"image index "<<j<<endl;
-        srcPx[j] = p;
-        cout << "SOURCEPX  :  " << srcPx[0].size() << endl;
+        srcPx[i] = p;
      }
     
     
@@ -203,14 +210,19 @@ void testApp::setupSrcs(int srcID){
     cloneIMGs();
 }
 
-void testApp::updateSrc(int srcID){
+bool testApp::updateSrc(int srcID){
     srcIMG.setFromPixels(srcPx[srcID]);
     //srcIMG.loadImage(url);
+    srcIMG.update();
+   
     srcFbo.allocate(srcIMG.height, srcIMG.width);
-    srcTracker.update(toCv(srcIMG));
-    srcPoints = srcTracker.getImagePoints();
-    srcMesh = makeMesh(srcTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE));
-    srcPoints = srcMesh.getTexCoords();
+   
+    if( srcTracker.update(toCv(srcIMG))){
+        cout << "SOURCE FACE TRACKED";
+        srcMesh = makeMesh(srcTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE));
+        return true;
+    }
+    return false;
 }
 
 vector<ofVec2f> vec3D2vec2D(vector<ofVec3f> &v){
@@ -279,113 +291,125 @@ void testApp::sendImage(){
     
 }
 
+
+
+
 void testApp::cloneIMGs(){
     
-    
-    clone.setup(tgIMG.getWidth(), tgIMG.getHeight());
-    clone.setStrength(30);
-  
-    
-    tgMesh = tgMeshes[currentTg][0];
-    updateSrc(0);
-    
-    tgMesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
-    tgMesh.clearTexCoords();
-    tgMesh.addTexCoords(srcPoints);
-    
-    srcDBFbo.allocate(srcIMG.width, srcIMG.height);
-    srcDBFbo.begin();
-    
-    ofClear(0,255);
-    ofSetColor(255,255,255);
-    srcIMG.bind();
-   
-    srcMesh.draw();
-    srcIMG.unbind();
-    srcMesh.drawWireframe();
-    ofSetColor(255,0,0);
-    
-    vector<ofVec3f> srcV = srcMesh.getVertices();
-    
-    for(int i = 0; i< srcV.size(); i++){
-        ofDrawBitmapString(ofToString(i), srcV[i].x, srcV[i].y );
-    }
-    ofSetColor(255,255,255);
-    srcDBFbo.end();
-    
-    
-    //vector<ofVec3f> tgPTS = tgTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE).getVertices();
-    //vector<ofVec2f> tgPTS2D = vec3D2vec2D(tgPTS);
-    //ofMesh tgTestMesh = makeMesh(tgPTS);
-    
-   // vector<ofVec3f> srcPTS = srcTracker.getImageFeature(ofxFaceTracker::FACE_OUTLINE).getVertices();
-    //vector<ofVec2f> srcPTS2D = vec3D2vec2D(srcPTS);
-    
-    
-    
-    //ofMesh tgTestMesh = tgMesh;
-    //tgTestMesh.clearTexCoords();
-    //tgTestMesh.addTexCoords(srcPoints);
-    
+    //debug
+    dbFbo.allocate(tgIMG.width, tgIMG.height);
+    dbFbo.begin();
+    tgIMG.draw(0,0);
+    dbFbo.end();
+    //setup shaders
     ofShader bw;
     bw.load("bw");
     
-    srcFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
-    srcFbo.begin();
-    bw.begin();
-    bw.setUniformTexture("tex", srcIMG.getTextureReference(),1);
-    ofClear(0,255);
-    srcIMG.bind();
-    //tgMesh.draw(); //default
-    //tgTestMesh.draw();
-    tgMesh.draw();
-    srcIMG.unbind();
-    bw.end();
-    //tgMesh.drawWireframe();
-    srcFbo.end();
-    
-    
-   
-    
-    
-    
-    
-    
+    clone.setup(tgIMG.getWidth(), tgIMG.getHeight());
+    clone.setStrength(30);
+    ofFbo accum;
+    accum.allocate(tgIMG.getWidth(), tgIMG.getHeight());
+    accum.begin();
+        ofClear(0,255);
+        tgIMG.draw(0,0);
+    accum.end();
+    DBFbos.push_back(accum);
     tgMaskFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
-    tgMaskFbo.begin();
-    ofClear(0, 255);
-    //path.draw();
-    //tgTestMesh.draw();
-    tgMesh.draw();
-    //tgMesh.draw(); //this is default
-    tgMaskFbo.end();
     
-    
-    
-    
-    
-    
-    
-    clone.update(srcFbo.getTextureReference(),tgFbo.getTextureReference(),tgMaskFbo.getTextureReference());
+    for(int i = 0; i < sources.size(); i++){
+        
+        //setup current tgMesh, and sourceIMG
+        int faceID = sources[i]["faceID"].asInt();
+        tgMesh.clear();
+        if(updateSrc(i)){
+        tgMesh = tgMeshes[currentTg][faceID];
+        tgMesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+            
+        //debug only
+            dbFbo.begin();
+            tgMesh.draw();
+            dbFbo.end();
+            
+        tgMesh.clearTexCoords();
+        tgMesh.addTexCoords(srcMesh.getTexCoords());
+        
+        cout << "Target Mesh " << i << " with vertices " << tgMesh.getVertices().size() << endl;
+        cout << "updating source " << i << " with ID " << faceID << endl;
+        
+        //draw warped srcImg in black and white to the source buffer
+        srcFbo.allocate(tgIMG.getWidth(), tgIMG.getHeight());
+        srcFbo.begin();
+            ofClear(0,255);
+            bw.begin();
+                bw.setUniformTexture("tex", srcIMG.getTextureReference(),1);
+                srcIMG.bind();
+                    tgMesh.draw();
+                srcIMG.unbind();
+            
+            bw.end();
+          
+        srcFbo.end();
 
+        //draw the mask
+        tgMaskFbo.begin();
+            ofClear(0, 255);
+            tgMesh.draw();
+        tgMaskFbo.end();
+        
+        //update clone
+        clone.update(srcFbo.getTextureReference(),accum.getTextureReference(),tgMaskFbo.getTextureReference());
+        
+        //draw to accumulator
+        accum.begin();
+            ofClear(0,255);
+            clone.draw(0,0);
+        accum.end();
+        DBFbos.push_back(accum);
+        }else{
+            imageObject["sources"][i]["error"] = "no face found";
+            if(!imageObject.isMember("error")){
+                imageObject["error"] = "no face found at "+ofToString(i);
+            }else{
+                imageObject["error"] = imageObject["error"].asString()+", "+ofToString(i);
+            }
+        }
+    }
+    
+    cout << "IS ERROR? " << imageObject.isMember("error") << endl;
+    if(!imageObject.isMember("error")){
+        srcDBFbo.allocate(srcIMG.width, srcIMG.height);
+        srcDBFbo.begin();
+        ofClear(0,255);
+        ofSetColor(255,255,255);
+        srcIMG.bind();
+        srcMesh.draw();
+        srcIMG.unbind();
+        srcMesh.drawWireframe();
+        ofSetColor(255,0,0);
+        vector<ofVec3f> srcV = srcMesh.getVertices();
+        
+        for(int i = 0; i< srcV.size(); i++){
+            ofDrawBitmapString(ofToString(i), srcV[i].x, srcV[i].y );
+        }
+        ofSetColor(255,255,255);
+        srcDBFbo.end();
+        
+        canvas.allocate(tgIMG.getWidth(), tgIMG.getHeight());
+        canvas.begin();
+        //clone.draw(0,0);
+        accum.draw(0,0);
+        mashIMG.grabScreen(0,0,canvas.getWidth(),canvas.getHeight());
+        mashIMG.rotate90(2);
+        mashIMG.mirror(0,1);
 
-    
-    canvas.allocate(tgIMG.getWidth(), tgIMG.getHeight());
-    canvas.begin();
-    clone.draw(0,0);
-    mashIMG.grabScreen(0,0,canvas.getWidth(),canvas.getHeight());
-    mashIMG.rotate90(2);
-    mashIMG.mirror(0,1);
-
-    canvas.end();
-    
-    
-    
-    
-    
-    
-    sendImage();
-    cloned = true;
+        canvas.end();
+        
+        
+        
+        }
+        
+        sendImage();
+        cloned = true;
     
     
 }

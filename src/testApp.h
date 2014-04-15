@@ -21,7 +21,7 @@ class testApp : public ofBaseApp{
     void drawImage();
     void returnImage(string fname);
     void loadPoints(string filename);
-    void updateSrc(int srcID);
+    bool updateSrc(int srcID);
     void keyPressed  (int key);
     void sendImage();
 		void keyReleased(int key);
@@ -78,6 +78,7 @@ class testApp : public ofBaseApp{
     
     ofMesh tgMesh, srcMesh;
     vector<vector <ofMesh> > tgMeshes;
+    vector<ofFbo> DBFbos;
     ofFbo canvas, srcFbo, tgFbo, srcMaskFbo,tgMaskFbo, dbFbo, tgDBFbo, srcDBFbo;
     Clone clone;
     ofxTriangle triangle;
